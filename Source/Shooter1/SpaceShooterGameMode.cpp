@@ -53,15 +53,14 @@ void ASpaceShooterGameMode::Tick(float DeltaTime)
 
 	if (EnemyTimer<=0.0f)
 	{
-		float DifficultyPercentage = FMath::Min(GameTimer / TIME_TO_MINIMUN_INTERVAL, 1.0f);//return the lowest value with a maximun of 1
-		EnemyTimer = MAXIMUN_INTERVAL - (MAXIMUN_INTERVAL - MINIMUN_INTERVAL) * DifficultyPercentage;//longer the game goes, higher becamos de difficulty wich will make the enemy timer smaller.
-		//when the enemy timer reaches a minimun of 0.5 is on max level
-		//each second gets 62*Deltatime, so enemys are spawned every 0.5seconds at max level
+		float DifficultyPercentage = FMath::Min(GameTimer / TIME_TO_MINIMUN_INTERVAL, 1.0f);//return the lowest value with a maximun of 1.1 means maximun difficulty
+		EnemyTimer = MAXIMUN_INTERVAL - (MAXIMUN_INTERVAL - MINIMUN_INTERVAL) * DifficultyPercentage;//longer the game goes, higher becames de difficulty wich will make the enemy timer smaller.
+		// enemys are spawned every 0.5seconds at max level
 		UWorld* World = GetWorld();
-		UE_LOG(LogTemp, Warning, TEXT("%f"), EnemyTimer);
 
 		if (World)
 		{
+			//spawns a enemy in a random location
 			FVector Location = FVector(2000.0f, FMath::RandRange(300.0f, 4400.0f),70.0f);
 			World->SpawnActor<AEnemyController>(EnemyBlueprint, Location, FRotator::ZeroRotator);
 		}

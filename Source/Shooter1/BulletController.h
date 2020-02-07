@@ -23,10 +23,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	UPROPERTY(EditAnyWhere)
-	UShapeComponent* RootBox;// cria uma opcao no menu unreal para escolher a shape do component
+	UShapeComponent* RootBox;
 
 	UPROPERTY(EditAnyWhere)
-	float Speed =400.0f;//cria a opcao de mudar a velocidade da bala no menu unreal
+	float Speed =400.0f;
 
 	UFUNCTION()
 	void OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);

@@ -32,40 +32,43 @@ void ABulletController::BeginPlay()
 void ABulletController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+//actor will move in determinded direction
 	FVector NewLocation = GetActorLocation();
 	NewLocation.X += Speed * DeltaTime;
 	SetActorLocation(NewLocation);
 	
-
-	/*if (NewLocation.X > 600)
-	{
-		this->Destroy();
-	}*/
 }
 
 void ABulletController::OnOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	//if this actor hits a "weak" enemy that enemy will be destroyed and the player gains 1 point
 	if (OtherActor->IsA(AEnemyController::StaticClass()))
 	{
 		this->Destroy();
 		OtherActor->Destroy();
 		((ASpaceShooterGameMode*)GetWorld()->GetAuthGameMode())->IncrementScore();
 	}
+	//if this actor hits a "strong" enemy that enemy will be lose 1 life until he gets destroyed and the player gains 
+	//1 point for each time he hits this enemy
 	else if (OtherActor->IsA(AStrong_Enemy::StaticClass()))
 	{
 		AStrong_Enemy* enemy = Cast<AStrong_Enemy>(OtherActor);
 		this->Destroy();
 		enemy->Lives--;
+		((ASpaceShooterGameMode*)GetWorld()->GetAuthGameMode())->IncrementScore();
 		if (enemy->Lives == 0)
 		{
 			OtherActor->Destroy();
 		}
 	}
+	//if this actor hits a "strong" enemy that enemy will be lose 1 life until he gets destroyed and the player gains 
+	//1 point for each time he hits this enemy
 	else if (OtherActor->IsA(ABoss::StaticClass()))
 	{
 		ABoss* boss = Cast<ABoss>(OtherActor);
 		this->Destroy();
 		boss->lives--;
+		((ASpaceShooterGameMode*)GetWorld()->GetAuthGameMode())->IncrementScore();
 		if (boss->lives == 0)
 		{
 			OtherActor->Destroy();

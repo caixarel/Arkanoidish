@@ -22,6 +22,7 @@ AEnemyController::AEnemyController()
 void AEnemyController::BeginPlay()
 {
 	Super::BeginPlay();
+	//shoots a bullet when spawned
 	ShootBullet();
 }
 
@@ -29,14 +30,10 @@ void AEnemyController::BeginPlay()
 void AEnemyController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	FVector NewLocarion = GetActorLocation();
-	NewLocarion.X += Speed * DeltaTime;
-	SetActorLocation (NewLocarion);
-
-	/*if (NewLocarion.X > -600.0f)
-	{
-		this->Destroy();
-	}*/
+	//actor will move in a determined directio
+	FVector NewLocation = GetActorLocation();
+	NewLocation.X += Speed * DeltaTime;
+	SetActorLocation (NewLocation);
 }
 
 void AEnemyController::ShootBullet()
@@ -48,9 +45,10 @@ void AEnemyController::ShootBullet()
 	{
 		FVector Location = GetActorLocation();
 		Location.X -= 100;
-
-		World->SpawnActor<AEnemy_bullet>(BulletBlueprint, Location, FRotator::ZeroRotator);//vai gerar uma bala no local onde se encontra o actor(neste caso o shipController), axo ke ABulletController è o codigo da bala. e BulletBlueprint è o menu no Unreal onde podemos escolher o local para leter a buller blueprint
+		// actor will spawn a bullet
+		World->SpawnActor<AEnemy_bullet>(BulletBlueprint, Location, FRotator::ZeroRotator);
 	}
+	//timer to control when the bullets are spawned.in this case every 3 seconds
 	GetWorldTimerManager().SetTimer(BulletTimer, this, &AEnemyController::ShootBullet, 3.f, false);
 }
 

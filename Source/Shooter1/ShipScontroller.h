@@ -40,6 +40,7 @@ public:
 	void Move_yAxis(float AxisValue);
 	void OnShoot();
 	void OnRestart();
+	void Overlapped();
 
 	FVector CurrentVelocity;
 
